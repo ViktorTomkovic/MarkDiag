@@ -11,8 +11,6 @@ MarkDiag.setup = function ()
 			pattern = "*",
 			callback = MarkDiag.checkCurrentBuffer,
 		})
-	-- keymap to toggle this
-	vim.keymap.set("n", "<F11>", MarkDiag.toggle, km.snd("Toggle marks shown as hint dialog"))
 end
 
 MarkDiag.checkCurrentBuffer = function ()
