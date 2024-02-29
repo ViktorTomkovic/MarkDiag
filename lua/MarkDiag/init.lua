@@ -31,7 +31,17 @@ MarkDiag.checkCurrentBuffer = function ()
 			i = i + 1
 		end
 	end
-	vim.diagnostic.set(MarkDiag.namespace, 0, diags)
+	-- put diags in same line together
+	local diag2 = {}
+	for _, markDiag in ipairs(diags) do
+		local ld = diag2[markDiag.line]
+		if (ld == nil) then
+			ld = markDiag
+		else
+			ld.message = ld.message..markDiag.message
+		end
+	end
+	vim.diagnostic.set(MarkDiag.namespace, 0, diag2)
 end
 -- @param mark string
 MarkDiag.createDiagEntryForMark = function (mark)
@@ -58,7 +68,7 @@ MarkDiag.createDiagEntryForMark = function (mark)
 			--end_lnum = tonumber(line)-1,
 			col = tonumber(column)-1,
 			--end_col = tonumber(column)-1,
-			message = "Mark "..mark,
+			message = mark,
 			severity = vim.diagnostic.severity.HINT,
 		}
 	else
